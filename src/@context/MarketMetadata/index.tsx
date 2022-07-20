@@ -7,7 +7,6 @@ import React, {
   useEffect,
   useState
 } from 'react'
-import { OpcQuery } from 'src/@types/subgraph/OpcQuery'
 import { OperationResult } from 'urql'
 import { opcQuery } from './_queries'
 import { MarketMetadataProviderValue, OpcFee } from './_types'
@@ -28,7 +27,7 @@ function MarketMetadataProvider({
     async function getOpcData() {
       const opcData = []
       for (let i = 0; i < appConfig.chainIdsSupported.length; i++) {
-        const response: OperationResult<OpcQuery> = await fetchData(
+        const response: any = await fetchData(
           opcQuery,
           null,
           getQueryContext(appConfig.chainIdsSupported[i])
@@ -36,7 +35,7 @@ function MarketMetadataProvider({
 
         opcData.push({
           chainId: appConfig.chainIdsSupported[i],
-          approvedTokens: response.data?.opc.approvedTokens?.map((x) => x.id),
+          approvedTokens: response.data?.opc.approvedTokens?.map((x: any) => x.id),
           swapApprovedFee: response.data?.opc.swapOceanFee,
           swapNotApprovedFee: response.data?.opc.swapNonOceanFee
         } as OpcFee)
